@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laadinstructie</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items:      height: 100vh;
+      margin: 0;
+      padding: 1em;
+      text-align: center;
+    }
+    .box {
+      background: white;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+    h2 {
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🔌 Laadinstructie</h2>
+    <p id="instruction">Even geduld...</p>
+  </div>
+
+  <script>
+    const instructions = {
+      "laden123": "Sluit de laadkabel aan op de rechterzijde van de auto. of het lampje groen knippert.",
+      "laden456": "Gebruik de blauwe laadpas en scan deze vóór het aansluiten van de kabel.",
+      "laden789": "Let op: deze auto moet eerst worden ontgrendeld voordat je kunt laden."
+    };
+
+    const uid = new URLSearchParams(window.location.search).get("uid");
+    const instructionText = instructions[uid] || "Geen instructie gevonden voor deze tag.";
+
+    document.getElementById("instruction").textContent = instructionText;
+  </script>
+</body>
+</html>
