@@ -3,75 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ritregistratie Start/Einde</title>
+  <title>Ritregistratie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f6f8;
       margin: 0;
-      padding: 1em;
+      padding: 2em 1em;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
-
     .container {
-      background: white;
+      background: #ffffff;
       padding: 2em;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 420px;
       width: 100%;
-      left;
     }
-
     h2 {
       margin-top: 0;
+      font-size: 1.5em;
     }
-
     p.subtitle {
+      color: #666;
       margin: 0.5em 0;
-      color: #555;
       font-size: 0.95em;
     }
-
+    form {
+      margin-top: 1.5em;
+    }
     button {
       width: 100%;
-      padding: 0.8em;
+      padding: 0.9em;
       background-color: #0078D7;
-      color: white;
+      color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1em;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 1em;
+      transition: background-color 0.3s ease;
     }
-
     button:hover {
       background-color: #005fa3;
     }
-
     #status {
       margin-top: 1em;
       font-weight: 500;
-      color: #555;
+      color: #333;
       min-height: 1.5em;
-      word-wrap: break-word;
     }
   </style>
 </head>
 <body>
   <div class="container" role="main" aria-labelledby="heading">
-    <h2 id="heading">🚕 Ritregistratie Start/Einde TEST</h2>
-    <p class="subtitle">📲 Even scannen bij vertrek én aankomst.</p>
-    <p class="subtitle">🔋🚗 Laad de auto op vóór het einde (en maak schoon)!</p>
+    <h2 id="heading">🚕 Ritregistratie Start/Einde</h2>
+    <p class="subtitle">📲 Scan bij vertrek én aankomst.</p>
+    <p class="subtitle">🔋🚗 Vergeet niet op te laden en schoon te maken.</p>
 
     <form id="checkin-form">
       <input type="hidden" id="uid" name="uid" />
       <input type="hidden" id="lat" name="lat" />
       <input type="hidden" id="lon" name="lon" />
-      <button type="submit" aria-label="Check in verzenden">Check In</button>
+      <button type="submit" aria-label="Check-in versturen">Check In</button>
       <div id="status" role="alert" aria-live="polite"></div>
     </form>
   </div>
@@ -88,16 +89,15 @@
 
     function getLocation() {
       if (!navigator.geolocation) {
-        setStatus("❌ Geolocatie wordt niet ondersteund.");
+        setStatus("❌ Geolocatie niet ondersteund.");
         return;
       }
-
       navigator.geolocation.getCurrentPosition(
         (position) => {
           document.getElementById('lat').value = position.coords.latitude.toFixed(6);
           document.getElementById('lon').value = position.coords.longitude.toFixed(6);
         },
-        (error) => {
+        () => {
           setStatus("❌ Locatie ophalen mislukt.");
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -107,34 +107,4 @@
     document.getElementById('uid').value = getQueryParam('uid');
     getLocation();
 
-    document.getElementById('checkin-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      setStatus("⏳ Verzenden...");
-
-      const uid = document.getElementById('uid').value;
-      const lat = document.getElementById('lat').value;
-      const lon = document.getElementById('lon').value;
-
-      if (!uid || !lat || !lon) {
-        setStatus("⚠️ UID en locatie zijn verplicht.");
-        return;
-      }
-
-      const url = "https://script.google.com/macros/s/AKfycbzOHr6SZylILTcwOgkwxuYuragyilB-whcQk3Z9qRunAqKh-ULiCBsHsIyZNDuaQFpB/exec";
-      const params = new URLSearchParams({ uid, lat, lon });
-
-      fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params,
-        mode: "no-cors"
-      }).then(() => {
-        setStatus("✅ Inchecken voltooid.");
-        getLocation();
-      }).catch(() => {
-        setStatus("❌ Verzenden mislukt.");
-      });
-    });
-  </script>
-</body>
-</html>
+    document.getElementById('c
