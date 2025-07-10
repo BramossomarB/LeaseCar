@@ -42,16 +42,20 @@
     button {
       width: 100%;
       padding: 0.9em;
-      background-color: #0078D7;
+      background-color: #ccc;
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1em;
       font-weight: 600;
-      cursor: pointer;
+      cursor: not-allowed;
       transition: background-color 0.3s ease;
     }
-    button:hover {
+    button.enabled {
+      background-color: #0078D7;
+      cursor: pointer;
+    }
+    button.enabled:hover {
       background-color: #005fa3;
     }
     #status {
@@ -59,6 +63,7 @@
       font-weight: 500;
       color: #333;
       min-height: 1.5em;
+      font-size: 0.95em;
     }
   </style>
 </head>
@@ -72,67 +77,94 @@
       <input type="hidden" id="uid" name="uid" />
       <input type="hidden" id="lat" name="lat" />
       <input type="hidden" id="lon" name="lon" />
-      <button type="submit" aria-label="Check-in versturen">Check In</button>
-      <div id="status" role="alert" aria-live="polite"></div>
+      <button type="submit" id="submit-btn" disabled>Registreren</button>
+      <div id="status" role="alert" aria-live="polite">
+        ⛔ Sta locatie toe. Ga naar: site-instellingen > alle sites > bramossomarb.github.io
+      </div>
     </form>
   </div>
 
   <script>
-    function setStatus(msg) {
-      document.getElementById('status').textContent = msg;
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+      const uidEl = document.getElementById("uid");
+      const latEl = document.getElementById("lat");
+      const lonEl = document.getElementById("lon");
+      const submitBtn = document.getElementById("submit-btn");
+      const statusEl = document.getElementById("status");
 
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
-
-    function getLocation() {
-      if (!navigator.geolocation) {
-        setStatus("❌ Geolocatie niet ondersteund.");
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          document.getElementById('lat').value = position.coords.latitude.toFixed(6);
-          document.getElementById('lon').value = position.coords.longitude.toFixed(6);
-        },
-        () => {
-          setStatus("❌ Locatie ophalen mislukt.");
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    }
-
-    document.getElementById('uid').value = getQueryParam('uid');
-    getLocation();
-
-    document.getElementById('checkin-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      setStatus("⏳ Bezig met verzenden...");
-
-      const uid = document.getElementById('uid').value;
-      const lat = document.getElementById('lat').value;
-      const lon = document.getElementById('lon').value;
-
-      if (!uid || !lat || !lon) {
-        setStatus("⚠️ UID en locatie zijn verplicht.");
-        return;
+      function setStatus(msg) {
+        statusEl.textContent = msg;
       }
 
-      const url = "https://script.google.com/macros/s/AKfycbzOHr6SZylILTcwOgkwxuYuragyilB-whcQk3Z9qRunAqKh-ULiCBsHsIyZNDuaQFpB/exec";
-      const params = new URLSearchParams({ uid, lat, lon });
+      function enableButtonIfReady() {
+        if (uidEl.value && latEl.value && lonEl.value) {
+          submitBtn.disabled = false;
+          submitBtn.classList.add("enabled");
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.classList.remove("enabled");
+        }
+      }
 
-      fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params,
-        mode: "no-cors"
-      }).then(() => {
-        setStatus("✅ Inchecken voltooid.");
-        getLocation();
-      }).catch(() => {
-        setStatus("❌ Verzenden mislukt.");
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      function getLocation() {
+        if (!navigator.geolocation) {
+          setStatus("❌ Geolocatie wordt niet ondersteund.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            latEl.value = position.coords.latitude.toFixed(6);
+            lonEl.value = position.coords.longitude.toFixed(6);
+            setStatus("✅ Locatie ontvangen. Je kunt nu registreren.");
+            enableButtonIfReady();
+          },
+          () => {
+            setStatus("❌ Locatie ophalen mislukt. Sta locatie toe via je browserinstellingen.");
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      }
+
+      // Init
+      uidEl.value = getQueryParam("uid") || "";
+      getLocation();
+      enableButtonIfReady();
+
+      document.getElementById("checkin-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const uid = uidEl.value;
+        const lat = latEl.value;
+        const lon = lonEl.value;
+
+        if (!uid || !lat || !lon) {
+          setStatus("⚠️ UID en locatie zijn verplicht.");
+          return;
+        }
+
+        setStatus("⏳ Bezig met verzenden...");
+
+        const url = "https://script.google.com/macros/s/AKfycbzOHr6SZylILTcwOgkwxuYuragyilB-whcQk3Z9qRunAqKh-ULiCBsHsIyZNDuaQFpB/exec";
+        const params = new URLSearchParams({ uid, lat, lon });
+
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params,
+          mode: "no-cors"
+        }).then(() => {
+          setStatus("✅ Registratie voltooid.");
+          submitBtn.disabled = true;
+          submitBtn.classList.remove("enabled");
+          getLocation(); // nieuwe locatie ophalen voor volgende registratie
+        }).catch(() => {
+          setStatus("❌ Verzenden mislukt.");
+        });
       });
     });
   </script>
