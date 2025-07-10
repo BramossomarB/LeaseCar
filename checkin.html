@@ -107,4 +107,34 @@
     document.getElementById('uid').value = getQueryParam('uid');
     getLocation();
 
-    document.getElementById('c
+    document.getElementById('checkin-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      setStatus("⏳ Bezig met verzenden...");
+
+      const uid = document.getElementById('uid').value;
+      const lat = document.getElementById('lat').value;
+      const lon = document.getElementById('lon').value;
+
+      if (!uid || !lat || !lon) {
+        setStatus("⚠️ UID en locatie zijn verplicht.");
+        return;
+      }
+
+      const url = "https://script.google.com/macros/s/AKfycbzOHr6SZylILTcwOgkwxuYuragyilB-whcQk3Z9qRunAqKh-ULiCBsHsIyZNDuaQFpB/exec";
+      const params = new URLSearchParams({ uid, lat, lon });
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params,
+        mode: "no-cors"
+      }).then(() => {
+        setStatus("✅ Inchecken voltooid.");
+        getLocation();
+      }).catch(() => {
+        setStatus("❌ Verzenden mislukt.");
+      });
+    });
+  </script>
+</body>
+</html>
