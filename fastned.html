@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fastned Laadinstructie</title>
   <style>
     body {
@@ -10,34 +10,69 @@
       background-color: #f0f2f5;
       margin: 0;
       padding: 1em;
-      text-align: center;
+      text-align: left;
     }
-    .box {
+    .container {
       background: white;
       padding: 2em;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 400px;
+      max-width: 500px;
       margin: 2em auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    p {
-      text-align: left;
+    h2 {
+      margin-top: 0;
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 1em;
+      text-decoration: none;
+      color: #0078D7;
+      font-weight: bold;
+    }
+    .section {
+      margin-top: 1.5em;
+    }
+    .plug {
+      font-size: 1.1em;
+      background: #eef;
+      padding: 0.5em;
+      border-radius: 6px;
+    }
+    ul {
+      padding-left: 1.2em;
     }
   </style>
 </head>
 <body>
-  <div class="box">
+  <div class="container">
+    <a class="back" href="instructie.html">← Terug</a>
     <h2>⚡ Fastned Snellader</h2>
-    <p><strong>Stekkertype:</strong> CCS (Combo) of CHAdeMO</p>
-    <p><strong>Benodigde app:</strong> Fastned App (gratis te downloaden)</p>
-    <p><strong>Stappen:</strong></p>
-    <ol>
-      <li>Open de Fastned App en log in (registratie vereist).</li>
-      <li>Kies het laadstation op de kaart.</li>
-      <li>Plug de juiste stekker in de auto.</li>
-      <li>Start het laden via de app of met een laadpas.</li>
-      <li>Na afloop: stop het laden in de app of via de paal en ontkoppel de stekker.</li>
-    </ol>
+    <div class="plug">
+      🔌 Stekkertype: CCS (Combo 2) – brede stekker met 2 pinnen onderaan en een ovaal bovenstuk.
+    </div>
+
+    <div class="section">
+      <h3>🪪 Laden met laadpas</h3>
+      <ul>
+        <li>Gebruik: Multitankcard, TotalEnergies of Shell Recharge Card</li>
+        <li>Steek de stekker in de auto</li>
+        <li>Scan je laadpas bij het scherm van de paal</li>
+        <li>Wacht op bevestiging (lampje groen of melding op scherm)</li>
+        <li>Laadsessie start automatisch</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>📱 Laden met app</h3>
+      <ul>
+        <li>Open de Fastned app</li>
+        <li>Log in (ruimte voor inloggegevens)</li>
+        <li>Kies het laadstation of scan QR-code</li>
+        <li>Bevestig en start de laadsessie via de app</li>
+        <li>Controleer of laden gestart is (lampje groen)</li>
+      </ul>
+    </div>
   </div>
 </body>
 </html>
