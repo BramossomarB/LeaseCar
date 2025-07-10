@@ -2,66 +2,77 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tesla Laadinstructie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f6f8;
       margin: 0;
-      padding: 1em;
-      text-align: left;
+      padding: 2em 1em;
     }
     .container {
-      background: white;
+      background: #fff;
       padding: 2em;
-      border-radius: 12px;
-      max-width: 500px;
-      margin: 2em auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    h2 {
-      margin-top: 0;
+      border-radius: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
     .back {
       display: inline-block;
       margin-bottom: 1em;
-      text-decoration: none;
       color: #0078D7;
-      font-weight: bold;
+      text-decoration: none;
+      font-weight: 600;
     }
-    .section {
-      margin-top: 1.5em;
+    h2 {
+      margin-top: 0;
+      font-size: 1.4em;
     }
     .plug {
+      background: #eef4ff;
+      padding: 0.75em;
+      border-radius: 8px;
+      margin-top: 1em;
+      font-size: 1em;
+    }
+    .section {
+      margin-top: 1.8em;
+    }
+    h3 {
       font-size: 1.1em;
-      background: #eef;
-      padding: 0.5em;
-      border-radius: 6px;
+      margin-bottom: 0.6em;
     }
     ul {
-      padding-left: 1.2em;
+      padding-left: 1.4em;
+      margin: 0;
+    }
+    li {
+      margin-bottom: 0.6em;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <a class="back" href="instructie.html">← Terug</a>
+    <a class="back" href="instructie.html" aria-label="Terug naar laadlocatie-overzicht">← Terug</a>
     <h2>Ⓣ Tesla Supercharger</h2>
     <div class="plug">
-      🔌 Stekkertype: CCS (Combo 2) – brede stekker met 2 pinnen onderaan en een ovaal bovenstuk.
+      🔌 <strong>Stekkertype:</strong> CCS (Combo 2) – brede stekker met ovaal bovenstuk.
     </div>
 
     <div class="section">
-      <h3>📱 Laden met app</h3>
+      <h3>📱 Laden met Tesla-app</h3>
       <ul>
-        <li>Open de Tesla-app</li>
-        <li>Log in   bram.vandijk@spie.com | Kaneelstok$1289</li>
-        <li>Selecteer het laadpunt (bv. 3a), bevestig en start de laadsessie</li>
-        <li> Steek de CCS stekker in de auto (haal de kap er vanaf)</li>
-        <li>Controleer of laden gestart is (lampje groen & dashboard)</li>
-        <li>Vol / +80%? stop laden via de app, ontkoppel en stuur factuur naar Bram.</li>
-        <li>vergeet niet in-uit te checken met jouw chip!</li>
+        <li>Open de Tesla-app en log in met het bedrijfsaccount.</li>
+        <li>Selecteer het juiste laadpunt (bv. 3A) op de kaart.</li>
+        <li>Bevestig en start de laadsessie via de app.</li>
+        <li>Steek de CCS-stekker stevig in de auto.</li>
+        <li>Controleer of laden is gestart (groen lampje & dashboardmelding).</li>
+        <li>Bij >80% of volle batterij: stop sessie in de app en ontkoppel.</li>
+        <li>💡 Vergeet niet: in- en uitchecken met je NFC-chip!</li>
       </ul>
     </div>
   </div>
