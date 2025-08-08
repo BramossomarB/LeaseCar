@@ -26,7 +26,7 @@
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
       max-width: 420px;
       width: 100%;
-      text-align: center; /* toegevoegd voor centering van naam */
+      text-align: center;
     }
     h2 {
       margin-top: 0;
@@ -40,9 +40,9 @@
 
     /* NIEUWE STYLING VOOR NAAM */
     #display-name {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: 700;
-      color: #0078D7;
+      color: #D70000; /* rood */
       margin-bottom: 1.5em;
       user-select: none;
     }
@@ -84,7 +84,6 @@
     <p class="subtitle">📲 Scan bij vertrek én aankomst.</p>
     <p class="subtitle">🔋🚗 Vergeet niet op te laden en schoon te maken.</p>
 
-    <!-- NIEUW: Naam zichtbaar maken -->
     <div id="display-name" aria-live="polite"></div>
 
     <form id="checkin-form">
@@ -106,7 +105,6 @@
       const submitBtn = document.getElementById("submit-btn");
       const statusEl = document.getElementById("status");
       const displayNameEl = document.getElementById("display-name");
-      const form = document.getElementById("checkin-form");
 
       function setStatus(msg) {
         statusEl.textContent = msg;
@@ -147,10 +145,8 @@
         );
       }
 
-      // Toon de naam op basis van uid, eventueel uitbreiden met echte naam mapping
       function showUserName(uid) {
         if (!uid) return;
-        // Voorbeeld mapping, pas aan naar jouw data
         const nameMap = {
           "daan": "Daan",
           "ouders": "Ouders",
@@ -158,12 +154,8 @@
         };
         const displayName = nameMap[uid.toLowerCase()] || uid;
         displayNameEl.textContent = displayName;
-
-        // Formulier verbergen als naam getoond wordt
-        form.style.display = "none";
       }
 
-      // Init
       uidEl.value = getQueryParam("uid") || "";
       showUserName(uidEl.value);
       getLocation();
@@ -194,7 +186,7 @@
           setStatus("✅ Registratie voltooid.");
           submitBtn.disabled = true;
           submitBtn.classList.remove("enabled");
-          getLocation(); // nieuwe locatie ophalen voor volgende registratie
+          getLocation();
         }).catch(() => {
           setStatus("❌ Verzenden mislukt.");
         });
